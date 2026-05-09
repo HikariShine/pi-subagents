@@ -329,6 +329,92 @@ study-notes/
 
 ---
 
+## 🐛 调试方案
+
+### 推荐调试方法（绕过 jiti，使用 tsx）
+
+**核心思路**：绕过 jiti 的 TypeScript 加载，直接用 tsx 加载扩展，配合 `debugger` 语句实现稳定断点。
+
+#### 步骤 1：创建启动脚本
+
+创建 `packages/coding-agent/test-interactive.ts`：
+
+```typescript
+import path from "path/win32";
+import { createAgentSession, InteractiveMode, SettingsManager, DefaultResourceLoader } from "../packages/coding-agent/src/index.js";
+
+import subagents from "../packages/pi-subagents/index.ts";
+import { resolveWindowsPiCliScript } from "../packages/pi-subagents/pi-spawn.ts";
+
+process.chdir("../packages/coding-agent");
+
+console.log(resolveWindowsPiCliScript());
+
+const settingsManager = SettingsManager.create()
+const extensionFactories = [subagents];
+const resourceLoader = new DefaultResourceLoader({ settingsManager, extensionFactories });
+await resourceLoader.reload();
+
+// const { session } = await createAgentSession({resourceLoader});
+
+const { session } = await createAgentSession();
+
+console.log(process.execPath)
+console.log(process.argv[1]);
+
+const mode = new InteractiveMode(session, {
+  migratedProviders: [],
+  modelFallbackMessage: undefined,
+  initialMessage: "",
+  initialImages: [],
+  initialMessages: [],
+});
+
+await mode.run();
+```
+
+#### 步骤 2：本地安装插件
+
+在 `pi-subagents` 目录执行：
+```bash
+pi install ./
+```
+
+#### 步骤 3：在代码中使用 debugger 打断点
+
+```typescript
+export default function registerSubagentExtension(pi: ExtensionAPI) {
+    debugger;  // 会在这里暂停
+    
+    pi.registerTool({
+        execute(id, params) {
+            debugger;  // 工具执行时暂停
+            // ...
+        }
+    });
+}
+```
+
+#### 步骤 4：启动调试
+
+```bash
+cd packages/coding-agent
+npx tsx ./test-interactive.ts
+```
+
+**缺少依赖处理**：如果提示缺少 `typebox`，直接将 `typebox` 包放到 `pi-subagents/node_modules` 里。
+
+#### 方案优势
+
+| 特性 | 说明 |
+|------|------|
+| ✅ 无 jiti | 直接用 tsx 加载，sourcemap 准确 |
+| ✅ 热重载 | 修改代码后重启脚本即可 |
+| ✅ 断点稳定 | `debugger` 语句不会漂移 |
+| ✅ VS Code 支持 | 可以用 F5 启动调试 |
+
+---
+
 ## ✅ 更新记录
 
 | 日期 | 操作 | 文件 | 说明 |
