@@ -139,7 +139,7 @@
 
 | 文件名 | 大小 | 文件作用说明 | 重要字段 | 阅读状态 | 详解文件路径 |
 |--------|------|-------------|----------|----------|-------------|
-| subagent-executor.ts | 65K | 子代理执行器核心 | createSubagentExecutor | ❌ 未读 | - |
+| subagent-executor.ts | 65K | 子代理执行器核心 | createSubagentExecutor | ✅ 已读 | study-notes/02-execution/subagent-executor.md |
 | subagent-runner.ts | 48K | 子代理运行器 | SubagentRunner | ❌ 未读 | - |
 | execution.ts | 24K | 执行逻辑实现 | ExecutionEngine | ❌ 未读 | - |
 
@@ -302,8 +302,8 @@
 ## 📊 进度统计
 
 - 总文件数：约 100+ 个
-- 已读文件：1（index.ts）
-- 未读文件：99+
+- 已读文件：2（index.ts, subagent-executor.ts）
+- 未读文件：98+
 
 ---
 
@@ -420,6 +420,7 @@ npx tsx ./test-interactive.ts
 | 日期 | 操作 | 文件 | 说明 |
 |------|------|------|------|
 | 2026-05-09 | 阅读完成 | index.ts | 完成入口文件阅读，包含九大组件结构分析 |
+| 2026-05-11 ~ 2026-05-12 | 阅读完成 | subagent-executor.ts | 完成执行器核心阅读，包含14步流程、关键辅助方法、执行路径对比 |
 
 ---
 
@@ -429,15 +430,15 @@ npx tsx ./test-interactive.ts
 
 | # | 组件名称 | 来源文件 | 阅读状态 | 详解位置 |
 |---|---------|---------|---------|---------|
-| 1 | 消息渲染器（3个） | index.ts | ✅ 已看 | 本文件内定义 |
-| 2 | 外部桥接注册（2个） | slash-bridge.ts / prompt-template-bridge.ts | ✅ 已看 | 本节笔记 |
-| 3 | 核心工具（1个） | index.ts | ✅ 已看 | 本文件内定义 |
-| 4 | Slash 命令（批量注册） | slash-commands.ts | ✅ 已看 | 本节笔记 |
-| 5 | 通知系统 | notify.ts | ✅ 已看 | 本节笔记 |
-| 6 | 事件订阅（Event Bus） | index.ts | ✅ 已看 | 本文件内定义 |
+| 1 | 消息渲染器（3个） | index.ts | ❌ 未看 | 本文件内定义 |
+| 2 | 外部桥接注册（2个） | slash-bridge.ts / prompt-template-bridge.ts | ❌ 未看 | 本节笔记 |
+| 3 | 核心工具（1个） | index.ts | ❌ 未看 | 本文件内定义 |
+| 4 | Slash 命令（批量注册） | slash-commands.ts | ❌ 未看 | 本节笔记 |
+| 5 | 通知系统 | notify.ts | ❌ 未看 | 本节笔记 |
+| 6 | 事件订阅（Event Bus） | index.ts | ❌ 未看 | 本文件内定义 |
 | 7 | 结果监视器（初始化） | result-watcher.ts | ❌ 未看 | - |
 | 8 | 异步作业追踪器 | async-job-tracker.ts | ❌ 未看 | - |
-| 9 | 子代理执行器 | subagent-executor.ts | ❌ 未看 | - |
+| 9 | 子代理执行器 | subagent-executor.ts | ✅ 已看 | study-notes/02-execution/subagent-executor.md |
 
 ### 阅读说明
 
