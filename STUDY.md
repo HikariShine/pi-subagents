@@ -140,6 +140,7 @@
 | 文件名 | 大小 | 文件作用说明 | 重要字段 | 阅读状态 | 详解文件路径 |
 |--------|------|-------------|----------|----------|-------------|
 | subagent-executor.ts | 65K | 子代理执行器核心 | createSubagentExecutor | ✅ 已读 | study-notes/02-execution/subagent-executor.md |
+| subagent-executor.ts | 65K | 9种执行路径详解 | 9种执行路径完整分析 | ✅ 已读 | study-notes/02-execution/pi-subagents-execution-paths.md |
 | subagent-runner.ts | 48K | 子代理运行器 | SubagentRunner | ❌ 未读 | - |
 | execution.ts | 24K | 执行逻辑实现 | ExecutionEngine | ❌ 未读 | - |
 
@@ -421,6 +422,7 @@ npx tsx ./test-interactive.ts
 |------|------|------|------|
 | 2026-05-09 | 阅读完成 | index.ts | 完成入口文件阅读，包含九大组件结构分析 |
 | 2026-05-11 ~ 2026-05-12 | 阅读完成 | subagent-executor.ts | 完成执行器核心阅读，包含14步流程、关键辅助方法、执行路径对比 |
+| 2026-05-18 | 阅读完成 | subagent-executor.ts | 完成9种执行路径深度分析：同步单任务/链式/并行、异步单任务/链式/并行、Clarify转异步、直接异步等完整链路梳理，发现 {task} 占位符Bug |
 
 ---
 
