@@ -197,7 +197,7 @@
 
 | 文件名 | 大小 | 文件作用说明 | 重要字段 | 阅读状态 | 详解文件路径 |
 |--------|------|-------------|----------|----------|-------------|
-| result-watcher.ts | 3.2K | 结果文件监视器 | ResultWatcher | ✅ 已读 | study-notes/02-execution/result-watcher.md |
+| result-watcher.ts | 3.2K | 结果文件监视器 | ResultWatcher | ❌ 未读 | - |
 | run-status.ts | 5.0K | 运行状态查询 | RunStatus | ❌ 未读 | - |
 | run-history.ts | 1.6K | 运行历史 | - | ❌ 未读 | - |
 | settings.ts | 11K | 设置管理 | SettingsManager | ❌ 未读 | - |
@@ -423,7 +423,7 @@ npx tsx ./test-interactive.ts
 | 2026-05-09 | 阅读完成 | index.ts | 完成入口文件阅读，包含九大组件结构分析 |
 | 2026-05-11 ~ 2026-05-12 | 阅读完成 | subagent-executor.ts | 完成执行器核心阅读，包含14步流程、关键辅助方法、执行路径对比 |
 | 2026-05-18 | 阅读完成 | subagent-executor.ts | 完成9种执行路径深度分析：同步单任务/链式/并行、异步单任务/链式/并行、Clarify转异步、直接异步等完整链路梳理，发现 {task} 占位符Bug |
-| 2026-05-19 | 阅读完成 | async-job-tracker.ts, result-watcher.ts | 完成异步监控体系：作业追踪器（轮询status.json/events.jsonl）、结果监视器（fs.watch）、跨进程事件桥接机制、同步vs异步状态获取对比 |
+| 2026-05-19 | 阅读完成 | async-job-tracker.ts | 完成异步作业追踪器：轮询status.json/events.jsonl、跨进程事件桥接机制、同步vs异步状态获取对比 |
 
 ---
 
@@ -439,7 +439,7 @@ npx tsx ./test-interactive.ts
 | 4 | Slash 命令（批量注册） | slash-commands.ts | ❌ 未看 | 本节笔记 |
 | 5 | 通知系统 | notify.ts | ❌ 未看 | 本节笔记 |
 | 6 | 事件订阅（Event Bus） | index.ts | ❌ 未看 | 本文件内定义 |
-| 7 | 结果监视器（初始化） | result-watcher.ts | ✅ 已看 | study-notes/02-execution/result-watcher.md |
+| 7 | 结果监视器（初始化） | result-watcher.ts | ❌ 未看 | - |
 | 8 | 异步作业追踪器 | async-job-tracker.ts | ✅ 已看 | study-notes/02-execution/async-job-tracker.md |
 | 9 | 子代理执行器 | subagent-executor.ts | ✅ 已看 | study-notes/02-execution/subagent-executor.md |
 
@@ -450,8 +450,8 @@ npx tsx ./test-interactive.ts
 
 ### 下一步计划
 
-1. 阅读 `execution.ts`（同步执行底层 - runSync/runSingleAttempt）
-2. 阅读 `subagent-runner.ts`（异步子进程主逻辑 - runSubagent）
-3. 阅读 `types.ts`（核心类型定义）
-4. 阅读 `agents.ts`（Agent定义和管理）
+1. 阅读 `result-watcher.ts`（结果文件监视器 - fs.watch）
+2. 阅读 `execution.ts`（同步执行底层 - runSync/runSingleAttempt）
+3. 阅读 `subagent-runner.ts`（异步子进程主逻辑 - runSubagent）
+4. 阅读 `types.ts`（核心类型定义）
 
