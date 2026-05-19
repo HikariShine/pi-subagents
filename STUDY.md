@@ -423,7 +423,7 @@ npx tsx ./test-interactive.ts
 | 2026-05-09 | 阅读完成 | index.ts | 完成入口文件阅读，包含九大组件结构分析 |
 | 2026-05-11 ~ 2026-05-12 | 阅读完成 | subagent-executor.ts | 完成执行器核心阅读，包含14步流程、关键辅助方法、执行路径对比 |
 | 2026-05-18 | 阅读完成 | subagent-executor.ts | 完成9种执行路径深度分析：同步单任务/链式/并行、异步单任务/链式/并行、Clarify转异步、直接异步等完整链路梳理，发现 {task} 占位符Bug |
-| 2026-05-19 | 阅读完成 | async-job-tracker.ts, result-watcher.ts, index-events | 完成异步监控体系+事件系统：作业追踪器、结果监视器、Event Bus事件总线、生命周期管理、跨进程事件通信 |
+| 2026-05-19 | 阅读完成 | async-job-tracker.ts, result-watcher.ts, index-events, notify.ts | 完成异步监控体系+事件系统+通知：作业追踪器、结果监视器、Event Bus、生命周期管理、跨进程通信、完成通知 |
 
 ---
 
@@ -437,7 +437,7 @@ npx tsx ./test-interactive.ts
 | 2 | 外部桥接注册（2个） | slash-bridge.ts / prompt-template-bridge.ts | ❌ 未看 | 本节笔记 |
 | 3 | 核心工具（1个） | index.ts | ❌ 未看 | 本文件内定义 |
 | 4 | Slash 命令（批量注册） | slash-commands.ts | ❌ 未看 | 本节笔记 |
-| 5 | 通知系统 | notify.ts | ❌ 未看 | 本节笔记 |
+| 5 | 通知系统 | notify.ts | ✅ 已看 | study-notes/06-ui/notify.md |
 | 6 | 事件订阅（Event Bus） | index.ts | ✅ 已看 | study-notes/01-core/index-events.md |
 | 7 | 结果监视器（初始化） | result-watcher.ts | ✅ 已看 | study-notes/02-execution/result-watcher.md |
 | 8 | 异步作业追踪器 | async-job-tracker.ts | ✅ 已看 | study-notes/02-execution/async-job-tracker.md |
