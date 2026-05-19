@@ -433,7 +433,7 @@ npx tsx ./test-interactive.ts
 
 | # | 组件名称 | 来源文件 | 阅读状态 | 详解位置 |
 |---|---------|---------|---------|---------|
-| 1 | 消息渲染器（3个） | index.ts | ❌ 未看 | 本文件内定义 |
+| 1 | 消息渲染器（3个） | index.ts | ✅ 已看 | （用户已了解，无需详解） |
 | 2 | 外部桥接注册（2个） | slash-bridge.ts / prompt-template-bridge.ts | ❌ 未看 | 本节笔记 |
 | 3 | 核心工具（1个） | index.ts | ❌ 未看 | 本文件内定义 |
 | 4 | Slash 命令（批量注册） | slash-commands.ts | ❌ 未看 | 本节笔记 |
