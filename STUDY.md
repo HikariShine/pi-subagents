@@ -424,7 +424,7 @@ npx tsx ./test-interactive.ts
 | 2026-05-11 ~ 2026-05-12 | 阅读完成 | subagent-executor.ts | 完成执行器核心阅读，包含14步流程、关键辅助方法、执行路径对比 |
 | 2026-05-18 | 阅读完成 | subagent-executor.ts | 完成9种执行路径深度分析：同步单任务/链式/并行、异步单任务/链式/并行、Clarify转异步、直接异步等完整链路梳理，发现 {task} 占位符Bug |
 | 2026-05-19 | 阅读完成 | async-job-tracker.ts, result-watcher.ts, index-events, notify.ts | 完成异步监控体系+事件系统+通知：作业追踪器、结果监视器、Event Bus、生命周期管理、跨进程通信、完成通知 |
-| 2026-05-20 | 阅读完成 | slash-bridge.ts, prompt-template-bridge.ts, slash-commands.ts | 完成外部桥接+命令系统：Slash命令桥接、提示模板桥接、/run/chain/parallel等命令注册、参数解析、与bridge的事件流 |
+| 2026-05-20 | 阅读完成 | slash-bridge.ts, prompt-template-bridge.ts, slash-commands.ts | 完成外部桥接+命令系统+执行核心：Slash命令桥接、提示模板桥接、/run/chain/parallel命令、requestSlashRun执行引擎、事件流、Snapshot机制 |
 
 ---
 
