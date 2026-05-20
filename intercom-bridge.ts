@@ -132,6 +132,7 @@ ${instruction}`;
 }
 
 export function diagnoseIntercomBridge(input: ResolveIntercomBridgeInput): IntercomBridgeDiagnostic {
+	debugger
 	const config = resolveIntercomBridgeConfig(input.config);
 	const mode = config.mode;
 	const extensionDir = path.resolve(input.extensionDir ?? DEFAULT_INTERCOM_EXTENSION_DIR);

@@ -1419,7 +1419,7 @@ async function runSubagent(config: SubagentRunConfig): Promise<void> {
 		console.error(`Failed to write result file ${resultPath}:`, err);
 	}
 }
-
+debugger
 const configArg = process.argv[2];
 if (configArg) {
 	try {

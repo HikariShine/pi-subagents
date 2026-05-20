@@ -164,6 +164,7 @@ async function requestSlashRun(
 		};
 
 		const onResponse = (data: unknown) => {
+			debugger
 			if (done || !data || typeof data !== "object") return;
 			const response = data as Partial<SlashSubagentResponse>;
 			if (response.requestId !== requestId) return;
@@ -285,6 +286,7 @@ async function runSlashSubagent(
 	persistSlashSessionSnapshot(ctx);
 
 	try {
+		debugger
 		const response = await requestSlashRun(pi, ctx, requestId, params);
 		const finalDetails = finalizeSlashResult(response);
 		pi.sendMessage({
