@@ -424,7 +424,7 @@ npx tsx ./test-interactive.ts
 | 2026-05-11 ~ 2026-05-12 | 阅读完成 | subagent-executor.ts | 完成执行器核心阅读，包含14步流程、关键辅助方法、执行路径对比 |
 | 2026-05-18 | 阅读完成 | subagent-executor.ts | 完成9种执行路径深度分析：同步单任务/链式/并行、异步单任务/链式/并行、Clarify转异步、直接异步等完整链路梳理，发现 {task} 占位符Bug |
 | 2026-05-19 | 阅读完成 | async-job-tracker.ts, result-watcher.ts, index-events, notify.ts | 完成异步监控体系+事件系统+通知：作业追踪器、结果监视器、Event Bus、生命周期管理、跨进程通信、完成通知 |
-| 2026-05-20 | 阅读完成 | slash-bridge.ts, prompt-template-bridge.ts, slash-commands.ts | 完成外部桥接+命令系统+执行核心：Slash命令桥接、提示模板桥接、/run/chain/parallel命令、requestSlashRun执行引擎、事件流、Snapshot机制 |
+| 2026-05-20 | 阅读完成 | 九大组件全部完成 | 完成九大组件全部阅读：核心工具、外部桥接、Slash命令、消息渲染器、通知系统、事件订阅、结果监视器、异步作业追踪器、子代理执行器 |
 
 ---
 
@@ -436,7 +436,7 @@ npx tsx ./test-interactive.ts
 |---|---------|---------|---------|---------|
 | 1 | 消息渲染器（3个） | index.ts | ✅ 已看 | （用户已了解，无需详解） |
 | 2 | 外部桥接注册（2个） | slash-bridge.ts / prompt-template-bridge.ts | ✅ 已看 | study-notes/01-core/slash-bridge.md, study-notes/01-core/prompt-template-bridge.md |
-| 3 | 核心工具（1个） | index.ts | ❌ 未看 | 本文件内定义 |
+| 3 | 核心工具（1个） | index.ts | ✅ 已看 | study-notes/03-tools/core-tool.md |
 | 4 | Slash 命令（批量注册） | slash-commands.ts | ✅ 已看 | study-notes/04-commands/slash-commands.md |
 | 5 | 通知系统 | notify.ts | ✅ 已看 | study-notes/06-ui/notify.md |
 | 6 | 事件订阅（Event Bus） | index.ts | ✅ 已看 | study-notes/01-core/index-events.md |
