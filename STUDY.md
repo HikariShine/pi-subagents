@@ -121,7 +121,7 @@
 
 | 文件名 | 大小 | 文件作用说明 | 重要字段 | 阅读状态 | 详解文件路径 |
 |--------|------|-------------|----------|----------|-------------|
-| index.ts | 22K | 插件主入口，注册所有组件 | ExtensionAPI, ToolDefinition | ❌ 未读 | - |
+| index.ts | 22K | 插件主入口，注册所有组件 | ExtensionAPI, ToolDefinition | ✅ 已读 | study-notes/01-core/index.md |
 | package.json | 1.7K | 项目配置和依赖声明 | pi.extensions, pi.skills | ❌ 未读 | - |
 | install.mjs | 2.6K | 安装脚本 | - | ❌ 未读 | - |
 
@@ -139,7 +139,8 @@
 
 | 文件名 | 大小 | 文件作用说明 | 重要字段 | 阅读状态 | 详解文件路径 |
 |--------|------|-------------|----------|----------|-------------|
-| subagent-executor.ts | 65K | 子代理执行器核心 | createSubagentExecutor | ❌ 未读 | - |
+| subagent-executor.ts | 65K | 子代理执行器核心 | createSubagentExecutor | ✅ 已读 | study-notes/02-execution/subagent-executor.md |
+| subagent-executor.ts | 65K | 9种执行路径详解 | 9种执行路径完整分析 | ✅ 已读 | study-notes/02-execution/pi-subagents-execution-paths.md |
 | subagent-runner.ts | 48K | 子代理运行器 | SubagentRunner | ❌ 未读 | - |
 | execution.ts | 24K | 执行逻辑实现 | ExecutionEngine | ❌ 未读 | - |
 
@@ -165,7 +166,7 @@
 | 文件名 | 大小 | 文件作用说明 | 重要字段 | 阅读状态 | 详解文件路径 |
 |--------|------|-------------|----------|----------|-------------|
 | async-execution.ts | 17K | 异步执行实现 | AsyncExecutionEngine | ❌ 未读 | - |
-| async-job-tracker.ts | 7.4K | 异步作业追踪 | AsyncJobTracker | ❌ 未读 | - |
+| async-job-tracker.ts | 7.4K | 异步作业追踪 | AsyncJobTracker | ✅ 已读 | study-notes/02-execution/async-job-tracker.md |
 | async-status.ts | 9.0K | 异步状态管理 | AsyncStatusManager | ❌ 未读 | - |
 
 ### 链式执行
@@ -196,7 +197,7 @@
 
 | 文件名 | 大小 | 文件作用说明 | 重要字段 | 阅读状态 | 详解文件路径 |
 |--------|------|-------------|----------|----------|-------------|
-| result-watcher.ts | 3.2K | 结果文件监视器 | ResultWatcher | ❌ 未读 | - |
+| result-watcher.ts | 3.2K | 结果文件监视器 | ResultWatcher | ✅ 已读 | study-notes/02-execution/result-watcher.md |
 | run-status.ts | 5.0K | 运行状态查询 | RunStatus | ❌ 未读 | - |
 | run-history.ts | 1.6K | 运行历史 | - | ❌ 未读 | - |
 | settings.ts | 11K | 设置管理 | SettingsManager | ❌ 未读 | - |
@@ -302,8 +303,8 @@
 ## 📊 进度统计
 
 - 总文件数：约 100+ 个
-- 已读文件：0
-- 未读文件：100+
+- 已读文件：2（index.ts, subagent-executor.ts）
+- 未读文件：98+
 
 ---
 
@@ -329,9 +330,130 @@ study-notes/
 
 ---
 
+## 🐛 调试方案
+
+### 推荐调试方法（绕过 jiti，使用 tsx）
+
+**核心思路**：绕过 jiti 的 TypeScript 加载，直接用 tsx 加载扩展，配合 `debugger` 语句实现稳定断点。
+
+#### 步骤 1：创建启动脚本
+
+创建 `packages/coding-agent/test-interactive.ts`：
+
+```typescript
+import path from "path/win32";
+import { createAgentSession, InteractiveMode, SettingsManager, DefaultResourceLoader } from "../packages/coding-agent/src/index.js";
+
+import subagents from "../packages/pi-subagents/index.ts";
+import { resolveWindowsPiCliScript } from "../packages/pi-subagents/pi-spawn.ts";
+
+process.chdir("../packages/coding-agent");
+
+console.log(resolveWindowsPiCliScript());
+
+const settingsManager = SettingsManager.create()
+const extensionFactories = [subagents];
+const resourceLoader = new DefaultResourceLoader({ settingsManager, extensionFactories });
+await resourceLoader.reload();
+
+// const { session } = await createAgentSession({resourceLoader});
+
+const { session } = await createAgentSession();
+
+console.log(process.execPath)
+console.log(process.argv[1]);
+
+const mode = new InteractiveMode(session, {
+  migratedProviders: [],
+  modelFallbackMessage: undefined,
+  initialMessage: "",
+  initialImages: [],
+  initialMessages: [],
+});
+
+await mode.run();
+```
+
+#### 步骤 2：本地安装插件
+
+在 `pi-subagents` 目录执行：
+```bash
+pi install ./
+```
+
+#### 步骤 3：在代码中使用 debugger 打断点
+
+```typescript
+export default function registerSubagentExtension(pi: ExtensionAPI) {
+    debugger;  // 会在这里暂停
+    
+    pi.registerTool({
+        execute(id, params) {
+            debugger;  // 工具执行时暂停
+            // ...
+        }
+    });
+}
+```
+
+#### 步骤 4：启动调试
+
+```bash
+cd packages/coding-agent
+npx tsx ./test-interactive.ts
+```
+
+**缺少依赖处理**：如果提示缺少 `typebox`，直接将 `typebox` 包放到 `pi-subagents/node_modules` 里。
+
+#### 方案优势
+
+| 特性 | 说明 |
+|------|------|
+| ✅ 无 jiti | 直接用 tsx 加载，sourcemap 准确 |
+| ✅ 热重载 | 修改代码后重启脚本即可 |
+| ✅ 断点稳定 | `debugger` 语句不会漂移 |
+| ✅ VS Code 支持 | 可以用 F5 启动调试 |
+
+---
+
 ## ✅ 更新记录
 
 | 日期 | 操作 | 文件 | 说明 |
 |------|------|------|------|
-| - | - | - | - |
+| 2026-05-09 | 阅读完成 | index.ts | 完成入口文件阅读，包含九大组件结构分析 |
+| 2026-05-11 ~ 2026-05-12 | 阅读完成 | subagent-executor.ts | 完成执行器核心阅读，包含14步流程、关键辅助方法、执行路径对比 |
+| 2026-05-18 | 阅读完成 | subagent-executor.ts | 完成9种执行路径深度分析：同步单任务/链式/并行、异步单任务/链式/并行、Clarify转异步、直接异步等完整链路梳理，发现 {task} 占位符Bug |
+| 2026-05-19 | 阅读完成 | async-job-tracker.ts, result-watcher.ts, index-events, notify.ts | 完成异步监控体系+事件系统+通知：作业追踪器、结果监视器、Event Bus、生命周期管理、跨进程通信、完成通知 |
+| 2026-05-20 | 阅读完成 | 九大组件全部完成 | 完成九大组件全部阅读：核心工具、外部桥接、Slash命令、消息渲染器、通知系统、事件订阅、结果监视器、异步作业追踪器、子代理执行器 |
+| 2026-05-20 | 补充阅读 | progress.md 机制 | progress.md 状态跟踪文件机制：INITIAL_PROGRESS_CONTENT 模板、writeInitialProgressFile 创建、指令注入（Create and maintain / Update）|
+
+---
+
+## 📋 index.ts 阅读进度
+
+### 九大组件清单（index.ts）
+
+| # | 组件名称 | 来源文件 | 阅读状态 | 详解位置 |
+|---|---------|---------|---------|---------|
+| 1 | 消息渲染器（3个） | index.ts | ✅ 已看 | （用户已了解，无需详解） |
+| 2 | 外部桥接注册（2个） | slash-bridge.ts / prompt-template-bridge.ts | ✅ 已看 | study-notes/01-core/slash-bridge.md, study-notes/01-core/prompt-template-bridge.md |
+| 3 | 核心工具（1个） | index.ts | ✅ 已看 | study-notes/03-tools/core-tool.md |
+| 4 | Slash 命令（批量注册） | slash-commands.ts | ✅ 已看 | study-notes/04-commands/slash-commands.md |
+| 5 | 通知系统 | notify.ts | ✅ 已看 | study-notes/06-ui/notify.md |
+| 6 | 事件订阅（Event Bus） | index.ts | ✅ 已看 | study-notes/01-core/index-events.md |
+| 7 | 结果监视器（初始化） | result-watcher.ts | ✅ 已看 | study-notes/02-execution/result-watcher.md |
+| 8 | 异步作业追踪器 | async-job-tracker.ts | ✅ 已看 | study-notes/02-execution/async-job-tracker.md |
+| 9 | 子代理执行器 | subagent-executor.ts | ✅ 已看 | study-notes/02-execution/subagent-executor.md |
+
+### 阅读说明
+
+- **已看**：已理解该组件的作用、接口和与其他组件的关系
+- **未看**：仅了解存在，具体实现待深入阅读来源文件
+
+### 下一步计划
+
+1. 阅读 `result-watcher.ts`（结果文件监视器 - fs.watch）
+2. 阅读 `execution.ts`（同步执行底层 - runSync/runSingleAttempt）
+3. 阅读 `subagent-runner.ts`（异步子进程主逻辑 - runSubagent）
+4. 阅读 `types.ts`（核心类型定义）
 
